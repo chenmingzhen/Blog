@@ -16,6 +16,34 @@ const getList = (author, keyword) => {
         }
     ]
 };
+
+const getDetail = (id) => {
+    return {
+        id: 1,
+        title: '标题A',
+        content: '内容A',
+        createTime: 1589880232415,
+        author: 'Tom'
+    }
+};
+
+const newBlog = (blogData = {}) => {
+    console.log(blogData);
+    return {
+        id: 1
+    };
+};
+
+const updateBlog = (id, blogData={}) => {
+    // id就是要更新博客的id
+    // blogData是一个博客对象 包含title,content属性
+    console.log("updateBlog", id, blogData);
+    return true;
+};
+
 module.exports = {
-    getList
+    getList,
+    getDetail,
+    newBlog,
+    updateBlog
 };
