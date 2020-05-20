@@ -38,7 +38,6 @@ const serverHandle = (req, res) => {
 
     //解析query
     req.query = querystring.parse(url.split('?')[1]);
-    console.log(JSON.stringify(req.query));
 
     //处理postData
     getPostData(req).then(postData => {
