@@ -5,6 +5,8 @@
     nodemon index.js启动
 2. 跨平台设置和使用环境变量
     cnpm install --save-dev cross-env
+3.数据库
+    cnpm install --save mysql
 ```
 
 ## 要点
