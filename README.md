@@ -9,6 +9,9 @@
     cnpm install --save mysql
 4.Redis
     cnpm i redis --save
+5.html启动
+    cnpm install http-server -g
+     http-server -p 8001
 ```
 
 ## 要点
