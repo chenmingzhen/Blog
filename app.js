@@ -2,6 +2,10 @@ const handleBlogRouter = require('./src/router/blog');
 const handleUserRouter = require('./src/router/user');
 const querystring = require('querystring');
 
+// session 数据
+const SESSION_DATA={};
+
+
 //获取cookie的过期时间
 const getCookieExpires=()=>{
     const d=new Date();
@@ -60,6 +64,19 @@ const serverHandle = (req, res) => {
         req.cookie[key] = val;
     });
 
+    // 解析session
+    let needSetCookie=false;
+    let userId=req.cookie.userid;
+    if(userId){
+        if(!SESSION_DATA[userId]){
+            SESSION_DATA[userId]={};
+        }
+    }else{
+        needSetCookie=true;
+        userId=`${Date.now()}_${Math.random()}`;
+        SESSION_DATA[userId]={};
+    }
+    req.session=SESSION_DATA[userId];
 
     //处理postData
     getPostData(req).then(postData => {
@@ -68,6 +85,9 @@ const serverHandle = (req, res) => {
         const blogData = handleBlogRouter(req, res);
         if (blogData) {
             blogData.then(data => {
+                if(needSetCookie){
+                    res.setHeader('Set-Cookie',`userid='${userId}';path=/; httpOnly`);
+                }
                 res.end(JSON.stringify(data));
             });
             return;
@@ -77,6 +97,9 @@ const serverHandle = (req, res) => {
         const userData = handleUserRouter(req, res);
         if (userData) {
             userData.then(data => {
+                if(needSetCookie){
+                    res.setHeader('Set-Cookie',`userid='${userId}';path=/; httpOnly`);
+                }
                 res.end(JSON.stringify(data));
             });
             return;
