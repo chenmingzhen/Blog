@@ -7,6 +7,8 @@
     cnpm install --save-dev cross-env
 3.数据库
     cnpm install --save mysql
+4.Redis
+    cnpm i redis --save
 ```
 
 ## 要点
