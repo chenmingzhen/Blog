@@ -2,6 +2,14 @@ const handleBlogRouter = require('./src/router/blog');
 const handleUserRouter = require('./src/router/user');
 const querystring = require('querystring');
 
+//获取cookie的过期时间
+const getCookieExpires=()=>{
+    const d=new Date();
+    d.setTime(d.getTime()+(24*60*60*1000));
+    console.log('d.toGMTString() is ',d.toGMTString());
+    return d.toGMTString();
+};
+
 // 处理post data
 const getPostData = (req) => {
     return new Promise((resolve, reject) => {
@@ -38,6 +46,20 @@ const serverHandle = (req, res) => {
 
     //解析query
     req.query = querystring.parse(url.split('?')[1]);
+
+    //解析cookie
+    req.cookie = {};
+    const cookieStr = req.headers.cookie || '';  // k1=v1;k2=v2;k3=v3
+    cookieStr.split(';').forEach(item => {
+        if (!item) {
+            return;
+        }
+        const arr = item.split('=');
+        const key = arr[0].trim();
+        const val = arr[1].trim();
+        req.cookie[key] = val;
+    });
+
 
     //处理postData
     getPostData(req).then(postData => {
